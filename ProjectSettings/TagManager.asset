@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
@@ -44,6 +44,21 @@ TagManager:
   - name: Background
     uniqueID: 3230804417
     locked: 0
-  - name: Player
+  - name: Background haze
+    uniqueID: 2989047285
+    locked: 0
+  - name: Stars small
+    uniqueID: 2322646029
+    locked: 0
+  - name: Stars big
+    uniqueID: 256750079
+    locked: 0
+  - name: Projectiles
+    uniqueID: 2540915529
+    locked: 0
+  - name: Ships
     uniqueID: 2624075923
+    locked: 0
+  - name: Explosions
+    uniqueID: 1071600249
     locked: 0
