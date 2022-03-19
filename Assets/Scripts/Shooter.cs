@@ -17,8 +17,15 @@ public class Shooter : MonoBehaviour
     [SerializeField] float aiMinFireRate = 0.1f;
     [SerializeField] bool useAI;
     [HideInInspector] public bool isFiring = false;
+
+    AudioPlayer audioPlayer;
     Coroutine firingCoroutine;
     bool waitingToShoot = false;
+
+    void Awake() 
+    {
+        audioPlayer = FindObjectOfType<AudioPlayer>();    
+    }
 
     void Start()
     {
@@ -50,7 +57,7 @@ public class Shooter : MonoBehaviour
     {
         while (true) 
         {
-            GameObject instance = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            GameObject instance = Instantiate(projectilePrefab, transform.position, transform.rotation);
 
             Rigidbody2D rbProjectile = instance.GetComponent<Rigidbody2D>();
             if (rbProjectile != null)
@@ -60,7 +67,15 @@ public class Shooter : MonoBehaviour
 
             Destroy(instance, projectileLifetime);
 
-            if (useAI) { baseFiringRate = SetAIRandomFiringRate(); }
+            if (useAI) 
+            { 
+                baseFiringRate = SetAIRandomFiringRate();
+                audioPlayer.PlayEnemyMainShootingClip(); 
+            }
+            else
+            {
+                audioPlayer.PlayPlayerMainShootingClip();
+            }
 
             waitingToShoot = true;
             StartCoroutine(FireController());

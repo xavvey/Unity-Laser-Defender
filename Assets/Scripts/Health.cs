@@ -8,9 +8,11 @@ public class Health : MonoBehaviour
     [SerializeField] ParticleSystem hitEffect;
     [SerializeField] bool applyCamShake;
     CameraShake cameraShake;
+    AudioPlayer audioPlayer;
 
     void Awake()
     {
+        audioPlayer = FindObjectOfType<AudioPlayer>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
     }
 
@@ -46,7 +48,12 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
+            audioPlayer.PlayDestroyClip();
             Destroy(gameObject);
+        }
+        else
+        {
+            audioPlayer.PlayDamageClip();
         }
     }
 
