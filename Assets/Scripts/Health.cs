@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [SerializeField] bool isPlayer;
     [SerializeField] int health = 50;
+    [SerializeField] int pointsOnAIdeath = 10;
     [SerializeField] ParticleSystem hitEffect;
     [SerializeField] bool applyCamShake;
+    ScoreKeeper scoreKeeper;
     CameraShake cameraShake;
     AudioPlayer audioPlayer;
 
@@ -14,6 +17,7 @@ public class Health : MonoBehaviour
     {
         audioPlayer = FindObjectOfType<AudioPlayer>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
     }
 
     void OnTriggerEnter2D(Collider2D other) 
@@ -48,13 +52,23 @@ public class Health : MonoBehaviour
 
         if (health <= 0)
         {
-            audioPlayer.PlayDestroyClip();
-            Destroy(gameObject);
+            Die();
         }
         else
         {
             audioPlayer.PlayDamageClip();
         }
+    }
+
+    private void Die()
+    {
+        if (!isPlayer)
+        {
+            scoreKeeper.ModifyScore(pointsOnAIdeath);
+        }
+
+        audioPlayer.PlayDestroyClip();
+        Destroy(gameObject);
     }
 
     void ShakeCamera()
@@ -63,5 +77,10 @@ public class Health : MonoBehaviour
         {
             cameraShake.Play(); 
         }
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 }
