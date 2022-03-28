@@ -9,12 +9,14 @@ public class Health : MonoBehaviour
     [SerializeField] int pointsOnAIdeath = 10;
     [SerializeField] ParticleSystem hitEffect;
     [SerializeField] bool applyCamShake;
+    LevelManager levelManager;
     ScoreKeeper scoreKeeper;
     CameraShake cameraShake;
     AudioPlayer audioPlayer;
 
     void Awake()
     {
+        levelManager = FindObjectOfType<LevelManager>();
         audioPlayer = FindObjectOfType<AudioPlayer>();
         cameraShake = Camera.main.GetComponent<CameraShake>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
@@ -65,6 +67,10 @@ public class Health : MonoBehaviour
         if (!isPlayer)
         {
             scoreKeeper.ModifyScore(pointsOnAIdeath);
+        }
+        else
+        {
+            levelManager.LoadGameOver();
         }
 
         audioPlayer.PlayDestroyClip();
